@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Tron</title>
+    <script>
+      (function () {
+        var hasTouch =
+          "ontouchstart" in window ||
+          (navigator.maxTouchPoints && navigator.maxTouchPoints > 0) ||
+          (navigator.msMaxTouchPoints && navigator.msMaxTouchPoints > 0) ||
+          (window.matchMedia && window.matchMedia("(hover: none) and (pointer: coarse)").matches);
+        if (hasTouch) document.documentElement.classList.add("is-touch");
+      })();
+    </script>
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <main class="app">
+      <header class="topbar">
+        <div class="brand">
+          <span class="brand-mark" aria-hidden="true"></span>
+          <h1>Tron</h1>
+          <span class="brand-sub">By Gaurav Sharma</span>
+        </div>
+        <div class="player">
+          <span class="player__label">Playing as</span>
+          <span class="player__name" id="playerName">—</span>
+          <button class="player__change" id="changePlayerBtn">Change</button>
+        </div>
+      </header>
+
+      <section class="hud">
+        <div class="stat">
+          <span class="stat__label">You</span>
+          <span class="stat__value" id="scoreValue">0</span>
+        </div>
+        <div class="stat">
+          <span class="stat__label">CPU</span>
+          <span class="stat__value" id="cpuValue">0</span>
+        </div>
+        <div class="stat">
+          <span class="stat__label">Round</span>
+          <span class="stat__value" id="roundValue">1</span>
+        </div>
+      </section>
+
+      <section class="stage">
+        <div class="canvas-wrap">
+          <canvas id="gameCanvas" width="800" height="600"></canvas>
+
+          <div class="overlay" id="overlayStart">
+            <div class="overlay__card">
+              <h2>Round 1 — Ready?</h2>
+              <p>Press a direction or <span class="kbd">Space</span> to start.</p>
+            </div>
+          </div>
+
+          <div class="overlay hidden" id="overlayPaused">
+            <div class="overlay__card">
+              <h2>Paused</h2>
+              <p>Press <span class="kbd">Space</span> to resume.</p>
+            </div>
+          </div>
+
+          <div class="overlay hidden" id="overlayOver">
+            <div class="overlay__card overlay__card--over">
+              <h2 id="overTitle">Round over</h2>
+              <div class="overlay__stats">
+                <div><span>You</span><strong id="overScore">0</strong></div>
+                <div><span>CPU</span><strong id="overBest">0</strong></div>
+              </div>
+              <p id="overMsg">Press <span class="kbd">Space</span> or <span class="kbd">R</span> for next round.</p>
+              <button class="btn btn--primary" id="playAgainBtn">Next round</button>
+            </div>
+          </div>
+        </div>
+
+        <aside class="sidebar">
+          <div class="leaderboard">
+            <div class="leaderboard__head">
+              <h3>Top 3</h3>
+              <button class="link" id="resetScoresBtn" title="Clear all scores">Clear</button>
+            </div>
+            <ol class="leaderboard__list" id="leaderboardList">
+              <li class="leaderboard__empty">No scores yet.</li>
+            </ol>
+          </div>
+
+          <div class="controls">
+            <h3>Controls</h3>
+            <ul>
+              <li><span class="key">↑</span><span class="key">↓</span><span class="key">←</span><span class="key">→</span><em>Move</em></li>
+              <li><span class="key">W</span><span class="key">A</span><span class="key">S</span><span class="key">D</span><em>Move</em></li>
+              <li><span class="key key--wide">Space</span><em>Play / Pause</em></li>
+              <li><span class="key key--wide">R</span><em>Restart</em></li>
+            </ul>
+          </div>
+        </aside>
+      </section>
+
+      <section class="touch-controls" id="touchControls">
+        <button class="touch-btn touch-btn--pause" id="touchPause" aria-label="Play or pause">&#9654;</button>
+        <div class="touch-dpad" role="group" aria-label="Direction pad">
+          <button class="touch-btn touch-btn--up"    id="touchUp"    aria-label="Move up">&#9650;</button>
+          <button class="touch-btn touch-btn--left"  id="touchLeft"  aria-label="Move left">&#9664;</button>
+          <button class="touch-btn touch-btn--right" id="touchRight" aria-label="Move right">&#9654;</button>
+          <button class="touch-btn touch-btn--down"  id="touchDown"  aria-label="Move down">&#9660;</button>
+        </div>
+      </section>
+      <footer class="footer">
+        <span>Derezz responsibly. 🏍️💡</span>
+      </footer>
+    </main>
+
+    <div class="modal hidden" id="nameModal" aria-hidden="true">
+      <div class="modal__backdrop"></div>
+      <div class="modal__card">
+        <h2>What's your name?</h2>
+        <p>We'll save it with your scores on this device.</p>
+        <form id="nameForm" autocomplete="off">
+          <input
+            id="nameInput"
+            type="text"
+            maxlength="14"
+            placeholder="Your name"
+            required
+          />
+          <button type="submit" class="btn btn--primary">Start</button>
+        </form>
+        <button type="button" class="link modal__cancel hidden" id="nameCancelBtn">Cancel</button>
+      </div>
+    </div>
+
+    <script src="game.js"></script>
+  </body>
+</html>
